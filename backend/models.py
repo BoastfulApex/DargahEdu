@@ -23,6 +23,7 @@ class Cource(models.Model):
     test_channel = models.CharField(max_length=500, null=True, blank=True)
     channel = models.CharField(max_length=500, null=True, blank=True)
     image = models.ImageField(null=True, blank=True)
+    video = models.FileField(null=True, blank=True)
 
     def __str__(self):
         return self.name_lat
@@ -59,11 +60,14 @@ class FAQ(models.Model):
     answer_kril = models.TextField(max_length=10000, null=True, blank=True)
 
 
-class Comment(models.Model):
+class Comment(models.Model):    
     customer_lat = models.TextField(max_length=10000, null=True, blank=True)
     customer_kril = models.TextField(max_length=10000, null=True, blank=True)
     comment_lat = models.TextField(max_length=10000, null=True, blank=True)
     comment_kril = models.TextField(max_length=10000, null=True, blank=True)
+    image = models.ImageField(null=True, blank=True)
+    korxona_lat = models.CharField(max_length=500, null=True, blank=True)
+    korxona_kril = models.CharField(max_length=500, null=True, blank=True)
 
 
 class Teacher(models.Model):

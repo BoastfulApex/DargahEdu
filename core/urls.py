@@ -15,9 +15,17 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from .api import router 
+from django.conf.urls.static import static
+from .settings import STATIC_URL, STATIC_ROOT, MEDIA_URL, MEDIA_ROOT
+from .api import router
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include(router.urls)),
+    path('auth/', include('backend.urls')),
+    path('pyclick/', include('pyclick.urls')),
+
 ]
+
+urlpatterns += static(STATIC_URL, document_root=STATIC_ROOT)
+urlpatterns += static(MEDIA_URL, document_root=MEDIA_ROOT)

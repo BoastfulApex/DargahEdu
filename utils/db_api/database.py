@@ -56,3 +56,21 @@ def get_cource(id):
     except:
         return None
 
+
+@sync_to_async
+def get_cource_last():
+    try:
+        cource = Cource.objects.all()[0]
+        return cource    
+    except:
+        return None
+
+
+@sync_to_async
+def get_user_by_phone(phone):
+    try:
+        user = User.objects.get(phone=phone)
+        return user
+    except:
+        return None
+    

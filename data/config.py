@@ -10,6 +10,15 @@ DATABASE = str(os.getenv("DATABASE"))
 PGUSER = str(os.getenv("PGUSER"))
 PGPASSWORD = str(os.getenv("PGPASSWORD"))
 ADMIN = str(os.getenv("ADMIN")).split(" ")
+CLICK_SERVICE_ID = str(os.getenv("CLICK_SERVICE_ID"))
+CLICK_MERCHANT_ID = str(os.getenv("CLICK_MERCHANT_ID"))
+CLICK_SECRET_KEY = str(os.getenv("CLICK_SECRET_KEY"))
+CLICK_MERCHANT_USER_ID = str(os.getenv("CLICK_MERCHANT_USER_ID"))
+
+PAYME_MERCHANT_ID = str(os.getenv("PAYME_MERCHANT_ID"))
+PAYME_SECRET_KEY = str(os.getenv("PAYME_SECRET_KEY"))
+
+
 SLEEP_TIME = .3
 
 ip = str(os.getenv("ip"))

@@ -53,27 +53,37 @@ def send_sms(otp, phone):
 
 @dp.message_handler(CommandStart(), state='*')
 async def bot_start(message: types.Message, state: FSMContext):
-    user = await get_user(message.from_id)
-    if user is not None:
+    args = message.get_args()
+    if isValid(args):
+        user = await get_user_by_phone(args)
         lang = user.lang
-        if user.phone:
-            markup = await user_menu(lang)
-            if lang == "lat":
-                await message.answer("Botimizga xush kelibsiz. Iltimos kerakli bo'limni tanlang 👇", reply_markup=markup)
-            elif lang == "kril":
-                await message.answer("Ботимизга хуш келибсиз. Илтимос керакли бўлимни танланг 👇", reply_markup=markup)
-            await state.set_state("get_command")
-        else:
-            markup = await phone_keyboard(lang)
-            if lang == "lat":
-                await message.answer("Telefon raqamingizni ulashing, yoki <b>998YYxxxxxxx</b> tarzida jo'nating", reply_markup=markup)
-            if lang == "kril":
-                await message.answer("Телефон рақамингизни жўнатинг, ёки <b>998YYxxxxxxx</b> тарзида жўнатинг", reply_markup=markup)
-            await state.set_state('get_phone')    
+        cource = await get_cource_last()
+        markup = await user_menu("lat")
+        url = await bot.create_chat_invite_link(chat_id=cource.channel, member_limit=1)
+        await message.answer(f"✔️ Buyurtma muvaffaqiyatli amalga oshirildi. \nKanaldan foydalanish uchun link:\n{url.invite_link} \nIltimos kerakli bo'limni tanlang 👇", reply_markup=markup)
+        await state.set_state("get_command")
     else:
-        markup = await language_keyboard()
-        await message.answer("Assalomu alaykum DargahEdu Botiga xush kelibsiz. Iltimos kerakli alifboni tanlang", reply_markup=markup)
-        await state.set_state('get_lang')
+        user = await get_user(message.from_id)
+        if user is not None:
+            lang = user.lang
+            if user.phone:
+                markup = await user_menu(lang)
+                if lang == "lat":
+                    await message.answer("Botimizga xush kelibsiz. Iltimos kerakli bo'limni tanlang 👇", reply_markup=markup)
+                elif lang == "kril":
+                    await message.answer("Ботимизга хуш келибсиз. Илтимос керакли бўлимни танланг 👇", reply_markup=markup)
+                await state.set_state("get_command")
+            else:
+                markup = await phone_keyboard(lang)
+                if lang == "lat":
+                    await message.answer("Telefon raqamingizni ulashing, yoki <b>998YYxxxxxxx</b> tarzida jo'nating", reply_markup=markup)
+                if lang == "kril":
+                    await message.answer("Телефон рақамингизни жўнатинг, ёки <b>998YYxxxxxxx</b> тарзида жўнатинг", reply_markup=markup)
+                await state.set_state('get_phone')    
+        else:
+            markup = await language_keyboard()
+            await message.answer("Assalomu alaykum DargahEdu Botiga xush kelibsiz. Iltimos kerakli alifboni tanlang", reply_markup=markup)
+            await state.set_state('get_lang')
 
 
 @dp.message_handler(state="get_lang")
